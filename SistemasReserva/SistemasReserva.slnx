@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AuthServer/AuthServer.csproj" />
+  <Project Path="AvailabilitySite/AvailabilitySite.csproj" />
+  <Project Path="BookingApi/BookingApi.csproj" />
+  <Project Path="MessegeBroker/MessegeBroker.csproj" />
+  <Project Path="PaymentgRCP/PaymentgRCP.csproj" />
+</Solution>

@@ -1,0 +1,5 @@
+﻿# Ignorar configuración de Visual Studio
+.vs/
+
+# Ignorar librerías de terceros (Bootstrap, jQuery, etc.)
+SistemasReserva/AvailabilitySite/wwwroot/lib/
