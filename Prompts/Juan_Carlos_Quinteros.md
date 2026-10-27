@@ -1,0 +1,3 @@
+Estamos trabajando en el diseño de un sistema de reserva de asientos basado en microservicios. Ya casi finalizamos los diagramas de clases y ahora necesito analizar y diseñar los contratos de comunicacion entre los distintos coponentes.
+
+Ayudame a identificar que contratos se necesitan, qué informacion deben intercambiar y como organizar sus archivos, buscando una solucion sencilla que respete los requisitos del trabajo practico.

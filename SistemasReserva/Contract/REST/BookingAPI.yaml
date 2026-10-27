@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Booking API - Consulta de solicitudes
+  version: 1.0.0
+  description: >-
+    Contrato propuesto para que Availability consulte en Booking el resultado
+    de una solicitud de reserva. No crea reservas por REST: las solicitudes
+    llegan a Booking mediante el broker de mensajes.
+paths:
+  /api/reservas/solicitudes/{solicitudId}:
+    get:
+      summary: Consultar resultado de una solicitud de reserva
+      description: >-
+        Devuelve el estado conocido por Booking. Si la solicitud todavía no fue
+        procesada por Booking, puede responder 404; Availability conserva el
+        registro de recepción y puede informar que sigue pendiente.
+      operationId: consultarSolicitud
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: solicitudId
+          in: path
+          required: true
+          description: Identificador generado por Availability.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Solicitud registrada y procesada en Booking.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultadoReserva'
+              example:
+                solicitudId: 550e8400-e29b-41d4-a716-446655440000
+                reservaId: 2cb2a78f-67dd-49c4-a4ac-ae1c3298b38c
+                estado: Confirmada
+                motivoRechazo: null
+        '401':
+          description: Token ausente o no válido.
+        '403':
+          description: La identidad autenticada no tiene permiso de consulta.
+        '404':
+          description: Solicitud todavía no conocida por Booking o inexistente.
+        '500':
+          description: Error interno de Booking.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ResultadoReserva:
+      type: object
+      additionalProperties: false
+      required:
+        - solicitudId
+        - reservaId
+        - estado
+      properties:
+        solicitudId:
+          type: string
+          format: uuid
+        reservaId:
+          type: string
+          format: uuid
+        estado:
+          type: string
+          enum:
+            - Retenida
+            - Confirmada
+            - Rechazada
+            - Vencida
+        motivoRechazo:
+          type: string
+          nullable: true
+          description: Motivo cuando estado es Rechazada; en otros estados es nulo.

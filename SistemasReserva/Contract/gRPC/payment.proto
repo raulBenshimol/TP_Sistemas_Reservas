@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package reservas.payment.v1;
+
+option csharp_namespace = "SistemaReservas.Contracts.Payment.V1";
+
+// Contrato compartido por Booking (cliente) y Payment (servidor).
+service PaymentService {
+  rpc ProcesarPago (ProcesarPagoRequest) returns (ProcesarPagoResponse);
+}
+
+message ProcesarPagoRequest {
+  string reserva_id = 1; // UUID de la reserva retenida.
+  int64 monto_centavos = 2; // Importe entero en centavos, evita errores de punto flotante.
+  bool simular_rechazo = 3; // Solo para las pruebas del TP.
+}
+
+message ProcesarPagoResponse {
+  string pago_id = 1; // UUID del pago registrado.
+  ResultadoPago resultado = 2;
+  string mensaje = 3;
+}
+
+enum ResultadoPago {
+  RESULTADO_PAGO_NO_ESPECIFICADO = 0;
+  RESULTADO_PAGO_APROBADO = 1;
+  RESULTADO_PAGO_RECHAZADO = 2;
+}
